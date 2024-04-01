@@ -8,4 +8,5 @@ const user_controller_1 = require("../controllers/user.controller");
 const router = express_1.default.Router();
 router.post('/api/user/prayer-request', user_controller_1.createPrayerRequest);
 router.get('/api/user/get-all-images', user_controller_1.getAllImages);
+router.get('/api/user/fetchRelics', user_controller_1.fetchRelics);
 exports.default = router;

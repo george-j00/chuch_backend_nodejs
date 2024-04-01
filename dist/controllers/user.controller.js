@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllImages = exports.createPrayerRequest = void 0;
+exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
+const relic_schema_1 = __importDefault(require("../models/relic.schema"));
 const createPrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { prayerRequest } = req.body;
     try {
@@ -55,3 +56,15 @@ const getAllImages = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getAllImages = getAllImages;
+const fetchRelics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allRelics = yield relic_schema_1.default.find();
+        console.log(allRelics);
+        res.status(200).json({ relics: allRelics });
+    }
+    catch (error) {
+        console.error('Error fetching relics:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.fetchRelics = fetchRelics;

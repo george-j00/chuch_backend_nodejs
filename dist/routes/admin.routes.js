@@ -12,5 +12,6 @@ router.get('/api/admin/getAllEvents', admin_controller_1.getAllEvents);
 router.delete('/api/admin/delete-event/:eventId', admin_controller_1.deleteEvent);
 router.get('/api/admin/prayer-requests/getAll', admin_controller_1.getAllPrayerRequests);
 router.post('/api/admin/addImage', multer_1.default.single("imageFile"), admin_controller_1.addImage);
+router.post('/api/admin/add-relics', multer_1.default.single("relicFile"), admin_controller_1.addRelics);
 router.delete('/api/admin/delete-prayer-request/:prayerRequestId', admin_controller_1.deletePrayerRequest);
 exports.default = router;

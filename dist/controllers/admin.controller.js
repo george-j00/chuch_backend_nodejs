@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePrayerRequest = exports.addImage = exports.getAllPrayerRequests = exports.deleteEvent = exports.getAllEvents = exports.createEvent = void 0;
+exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.deleteEvent = exports.getAllEvents = exports.createEvent = void 0;
 const event_schema_1 = __importDefault(require("../models/event.schema"));
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const cloudinary_1 = __importDefault(require("../services/cloudinary"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
+const relic_schema_1 = __importDefault(require("../models/relic.schema"));
 const createEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { event } = req.body;
     try {
@@ -108,6 +109,30 @@ const addImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.addImage = addImage;
+const addRelics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { description } = req.body;
+        if (req.file) {
+            const result = yield cloudinary_1.default.uploader.upload(req.file.path);
+            const imageUrl = result.secure_url;
+            const newRelic = new relic_schema_1.default({
+                description: description,
+                imageUrl: imageUrl
+            });
+            console.log(newRelic);
+            yield newRelic.save();
+            res.status(200).json({ message: 'Relics added successfully' });
+        }
+        else {
+            res.status(400).json({ message: 'No image file provided' });
+        }
+    }
+    catch (error) {
+        console.error('Error adding image:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.addRelics = addRelics;
 const deletePrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const prayerRequestId = req.params.prayerRequestId;
