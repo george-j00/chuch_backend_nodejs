@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import EventModel from "../models/event.schema";
 import PrayerRequestModel from "../models/prayerRequests.schema";
 import GalleryModel from "../models/gallery.schema";
+import RelicModel from "../models/relic.schema";
 
 export const createPrayerRequest = async (req: Request, res: Response) => {
   const { prayerRequest } = req.body;
@@ -43,6 +44,17 @@ export const getAllImages = async (req: Request, res: Response) => {
     res.status(200).json({images: images});
   } catch (error) {
     console.error('Error fetching images:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+export const fetchRelics = async (req: Request, res: Response) => {
+  try {
+    const allRelics = await RelicModel.find();
+    console.log(allRelics);
+    
+    res.status(200).json({relics: allRelics});
+  } catch (error) {
+    console.error('Error fetching relics:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

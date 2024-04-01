@@ -3,6 +3,7 @@ import EventModel from "../models/event.schema";
 import PrayerRequestModel from "../models/prayerRequests.schema";
 import cloudinary from "../services/cloudinary";
 import GalleryModel from "../models/gallery.schema";
+import RelicModel from "../models/relic.schema";
 
 export const createEvent = async (req: Request, res: Response) => {
   const { event } = req.body;
@@ -95,6 +96,35 @@ export const addImage = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+export const addRelics = async (req: Request, res: Response) => {
+  try {
+    const { description } = req.body;
+    
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path);
+      const imageUrl = result.secure_url;
+      
+      const newRelic = new RelicModel({
+        description: description,
+        imageUrl: imageUrl
+      });
+
+      console.log(newRelic);
+      
+      await newRelic.save();
+
+      res.status(200).json({ message: 'Relics added successfully' });
+    } else {
+      res.status(400).json({ message: 'No image file provided' });
+    }
+  } catch (error) {
+    console.error('Error adding image:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 export const deletePrayerRequest = async (req: Request, res: Response) => {
   try {
     const prayerRequestId = req.params.prayerRequestId;
