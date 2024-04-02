@@ -35,7 +35,7 @@ export const createEvent = async (req: Request, res: Response) => {
 export const getAllEvents = async (req: Request, res: Response) => {
   try {
     // Query the database to get all events
-    const events = await EventModel.find().sort({ createdAt: 1 });
+    const events = await EventModel.find().sort({ createdAt: -1 });
 
 
     // Respond with the retrieved events
@@ -62,7 +62,7 @@ export const deleteEvent = async (req: Request, res: Response) => {
 };
 export const getAllPrayerRequests = async (req: Request, res: Response) => {
   try {
-    const allPrayerRequests = await PrayerRequestModel.find();    
+    const allPrayerRequests = await PrayerRequestModel.find().sort({ createdAt: -1 });    
     // Respond with the retrieved events
     res.status(200).json({ prayerRequests: allPrayerRequests });
   } catch (error) {
@@ -97,7 +97,6 @@ export const addImage = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 export const addRelics = async (req: Request, res: Response) => {
   try {
     const { description } = req.body;
@@ -124,8 +123,6 @@ export const addRelics = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
 export const deletePrayerRequest = async (req: Request, res: Response) => {
   try {
     const prayerRequestId = req.params.prayerRequestId;
@@ -139,7 +136,6 @@ export const deletePrayerRequest = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 export const addBanner = async (req: Request, res: Response) => {
   try {
     const { quote , author  } = req.body;

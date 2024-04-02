@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import EventModel from "../models/event.schema";
 import PrayerRequestModel from "../models/prayerRequests.schema";
 import GalleryModel from "../models/gallery.schema";
 import RelicModel from "../models/relic.schema";
@@ -35,8 +34,6 @@ export const createPrayerRequest = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
-
 export const getAllImages = async (req: Request, res: Response) => {
   try {
     const images = await GalleryModel.find();
