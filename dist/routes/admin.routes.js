@@ -14,4 +14,5 @@ router.get('/api/admin/prayer-requests/getAll', admin_controller_1.getAllPrayerR
 router.post('/api/admin/addImage', multer_1.default.single("imageFile"), admin_controller_1.addImage);
 router.post('/api/admin/add-relics', multer_1.default.single("relicFile"), admin_controller_1.addRelics);
 router.delete('/api/admin/delete-prayer-request/:prayerRequestId', admin_controller_1.deletePrayerRequest);
+router.post('/api/admin/add-banner', multer_1.default.single("bannerFile"), admin_controller_1.addBanner);
 exports.default = router;

@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.deleteEvent = exports.getAllEvents = exports.createEvent = void 0;
+exports.addBanner = exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.deleteEvent = exports.getAllEvents = exports.createEvent = void 0;
 const event_schema_1 = __importDefault(require("../models/event.schema"));
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const cloudinary_1 = __importDefault(require("../services/cloudinary"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
 const relic_schema_1 = __importDefault(require("../models/relic.schema"));
+const banner_schema_1 = __importDefault(require("../models/banner.schema"));
 const createEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { event } = req.body;
     try {
@@ -46,7 +47,7 @@ exports.createEvent = createEvent;
 const getAllEvents = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Query the database to get all events
-        const events = yield event_schema_1.default.find().sort({ createdAt: 1 });
+        const events = yield event_schema_1.default.find().sort({ createdAt: -1 });
         // Respond with the retrieved events
         res.status(200).json({ events });
     }
@@ -74,7 +75,7 @@ const deleteEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.deleteEvent = deleteEvent;
 const getAllPrayerRequests = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allPrayerRequests = yield prayerRequests_schema_1.default.find();
+        const allPrayerRequests = yield prayerRequests_schema_1.default.find().sort({ createdAt: -1 });
         // Respond with the retrieved events
         res.status(200).json({ prayerRequests: allPrayerRequests });
     }
@@ -148,3 +149,28 @@ const deletePrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.deletePrayerRequest = deletePrayerRequest;
+const addBanner = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { quote, author } = req.body;
+        if (req.file) {
+            const result = yield cloudinary_1.default.uploader.upload(req.file.path);
+            const imageUrl = result.secure_url;
+            const newBanner = new banner_schema_1.default({
+                quote: quote,
+                author: author,
+                imageUrl: imageUrl
+            });
+            console.log('new Banner ', newBanner);
+            yield newBanner.save();
+            res.status(200).json({ message: 'Banner added successfully' });
+        }
+        else {
+            res.status(400).json({ message: 'No image file provided' });
+        }
+    }
+    catch (error) {
+        console.error('Error adding banner:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.addBanner = addBanner;

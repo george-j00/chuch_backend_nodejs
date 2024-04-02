@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
+exports.fetchBanners = exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
 const relic_schema_1 = __importDefault(require("../models/relic.schema"));
+const banner_schema_1 = __importDefault(require("../models/banner.schema"));
 const createPrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { prayerRequest } = req.body;
     try {
@@ -68,3 +69,15 @@ const fetchRelics = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.fetchRelics = fetchRelics;
+const fetchBanners = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allBanners = yield banner_schema_1.default.find();
+        console.log(allBanners);
+        res.status(200).json({ banners: allBanners });
+    }
+    catch (error) {
+        console.error('Error fetching banners:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.fetchBanners = fetchBanners;
