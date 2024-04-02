@@ -3,6 +3,7 @@ import EventModel from "../models/event.schema";
 import PrayerRequestModel from "../models/prayerRequests.schema";
 import GalleryModel from "../models/gallery.schema";
 import RelicModel from "../models/relic.schema";
+import BannerModel from "../models/banner.schema";
 
 export const createPrayerRequest = async (req: Request, res: Response) => {
   const { prayerRequest } = req.body;
@@ -55,6 +56,17 @@ export const fetchRelics = async (req: Request, res: Response) => {
     res.status(200).json({relics: allRelics});
   } catch (error) {
     console.error('Error fetching relics:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+export const fetchBanners = async (req: Request, res: Response) => {
+  try {
+    const allBanners = await BannerModel.find();
+    console.log(allBanners);
+    
+    res.status(200).json({banners: allBanners});
+  } catch (error) {
+    console.error('Error fetching banners:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
