@@ -27,10 +27,14 @@ const mongoose_1 = __importStar(require("mongoose"));
 // Define mongoose schema for event
 const EventSchema = new mongoose_1.Schema({
     eventDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
+    eventTime: { type: String, required: true },
+    endTime: { type: String, required: true },
     eventLocation: { type: String, required: true },
     eventTheme: { type: String, required: true },
-    eventTime: { type: String, required: true },
     eventDescription: { type: String, required: true },
+    status: { type: String, default: 'Upcoming' },
+    imageUrls: [{ type: String, required: true }],
     createdAt: { type: Date, default: Date.now }
 });
 // Create and export the model

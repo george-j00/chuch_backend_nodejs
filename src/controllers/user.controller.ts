@@ -3,6 +3,8 @@ import PrayerRequestModel from "../models/prayerRequests.schema";
 import GalleryModel from "../models/gallery.schema";
 import RelicModel from "../models/relic.schema";
 import BannerModel from "../models/banner.schema";
+import EventModel from "../models/event.schema";
+import ParishMember from "../models/parishMembers.schema";
 
 export const createPrayerRequest = async (req: Request, res: Response) => {
   const { prayerRequest } = req.body;
@@ -56,12 +58,36 @@ export const fetchRelics = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 export const fetchBanners = async (req: Request, res: Response) => {
   try {
     const allBanners = await BannerModel.find();
     console.log(allBanners);
     
     res.status(200).json({banners: allBanners});
+  } catch (error) {
+    console.error('Error fetching banners:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const fetchEventById = async (req: Request, res: Response) => {
+  try {
+    const {eventId} = req.body
+
+    console.log(eventId);
+    
+    const selectedEvent = await EventModel.findById({_id: eventId});
+    res.status(200).json({event: selectedEvent});
+  } catch (error) {
+    console.error('Error fetching banners:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+export const fetchParishMembers = async (req: Request, res: Response) => {
+  try {
+    const members = await ParishMember.find();
+    res.status(200).json({members: members});
   } catch (error) {
     console.error('Error fetching banners:', error);
     res.status(500).json({ message: 'Internal server error' });

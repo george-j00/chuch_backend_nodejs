@@ -12,11 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchBanners = exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
+exports.fetchParishMembers = exports.fetchEventById = exports.fetchBanners = exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
 const relic_schema_1 = __importDefault(require("../models/relic.schema"));
 const banner_schema_1 = __importDefault(require("../models/banner.schema"));
+const event_schema_1 = __importDefault(require("../models/event.schema"));
+const parishMembers_schema_1 = __importDefault(require("../models/parishMembers.schema"));
 const createPrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { prayerRequest } = req.body;
     try {
@@ -81,3 +83,27 @@ const fetchBanners = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.fetchBanners = fetchBanners;
+const fetchEventById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { eventId } = req.body;
+        console.log(eventId);
+        const selectedEvent = yield event_schema_1.default.findById({ _id: eventId });
+        res.status(200).json({ event: selectedEvent });
+    }
+    catch (error) {
+        console.error('Error fetching banners:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.fetchEventById = fetchEventById;
+const fetchParishMembers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const members = yield parishMembers_schema_1.default.find();
+        res.status(200).json({ members: members });
+    }
+    catch (error) {
+        console.error('Error fetching banners:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.fetchParishMembers = fetchParishMembers;
