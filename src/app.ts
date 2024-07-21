@@ -14,9 +14,14 @@ const port = process.env.PORT;
 
 start(process.env.MONGODB_URI!)
 
-
-app.use(cookieParser());
+// app.use(cors({
+//   origin: 'https://church-production-nextjs.vercel.app', // Replace with your frontend URL
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization']
+// }));
 app.use(cors());
+app.use(cookieParser());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
