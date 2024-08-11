@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getParishMembersList = exports.addParishMember = exports.addBanner = exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.addEventImages = exports.deleteMember = exports.deleteEvent = exports.getEvents = exports.updateEventStatus = exports.createEvent = exports.adminLogin = void 0;
+exports.addRegister = exports.getParishMembersList = exports.addParishMember = exports.addBanner = exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.addEventImages = exports.deleteMember = exports.deleteEvent = exports.getEvents = exports.updateEventStatus = exports.createEvent = exports.adminLogin = void 0;
 const event_schema_1 = __importDefault(require("../models/event.schema"));
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const cloudinary_1 = __importDefault(require("../services/cloudinary"));
@@ -23,6 +23,7 @@ const parishMembers_schema_1 = __importDefault(require("../models/parishMembers.
 const admin_auth_schema_1 = __importDefault(require("../models/admin.auth.schema"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const register_schema_1 = __importDefault(require("../models/register.schema"));
 const SECRET_KEY = "your_secret_key";
 const adminLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
@@ -319,3 +320,19 @@ const getParishMembersList = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getParishMembersList = getParishMembersList;
+const addRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, link } = req.body;
+    try {
+        // Check if a register with the same name already exists and update it, or create a new one if it doesn't exist
+        const response = yield register_schema_1.default.findOneAndUpdate({ name }, // Filter by the name field
+        { link }, // Update the link field
+        { new: true, upsert: true } // Options: return the updated document and create it if it doesn't exist
+        );
+        res.status(200).json({ message: "Register updated successfully", data: response });
+    }
+    catch (error) {
+        console.error("Error adding or updating register:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.addRegister = addRegister;

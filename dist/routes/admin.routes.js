@@ -21,4 +21,5 @@ router.delete('/api/admin/delete-prayer-request/:prayerRequestId', admin_control
 router.post('/api/admin/add-banner', multer_1.default.single("bannerFile"), admin_controller_1.addBanner);
 router.post('/api/admin/add-parish-member', multer_1.default.single("imageFile"), admin_controller_1.addParishMember);
 router.get('/api/admin/get-parish-members', admin_controller_1.getParishMembersList);
+router.post('/api/admin/add-register', admin_controller_1.addRegister);
 exports.default = router;

@@ -12,13 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchParishMembers = exports.fetchEventById = exports.fetchBanners = exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
+exports.fetchRegisters = exports.fetchParishMembers = exports.fetchEventById = exports.fetchBanners = exports.fetchRelics = exports.getAllImages = exports.createPrayerRequest = void 0;
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const gallery_schema_1 = __importDefault(require("../models/gallery.schema"));
 const relic_schema_1 = __importDefault(require("../models/relic.schema"));
 const banner_schema_1 = __importDefault(require("../models/banner.schema"));
 const event_schema_1 = __importDefault(require("../models/event.schema"));
 const parishMembers_schema_1 = __importDefault(require("../models/parishMembers.schema"));
+const register_schema_1 = __importDefault(require("../models/register.schema"));
 const createPrayerRequest = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { prayerRequest } = req.body;
     try {
@@ -107,3 +108,14 @@ const fetchParishMembers = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.fetchParishMembers = fetchParishMembers;
+const fetchRegisters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const registers = yield register_schema_1.default.find();
+        res.status(200).json({ registers: registers });
+    }
+    catch (error) {
+        console.error('Error fetching registers:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+exports.fetchRegisters = fetchRegisters;
