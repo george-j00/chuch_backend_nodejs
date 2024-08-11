@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { addBanner, addEventImages, addImage, addParishMember, addRelics, adminLogin, createEvent, deleteEvent, deleteMember, deletePrayerRequest, getAllPrayerRequests, getEvents, getParishMembersList, updateEventStatus } from '../controllers/admin.controller';
+import { addBanner, addEventImages, addImage, addParishMember, addRegister, addRelics, adminLogin, createEvent, deleteEvent, deleteMember, deletePrayerRequest, getAllPrayerRequests, getEvents, getParishMembersList, updateEventStatus } from '../controllers/admin.controller';
 import upload from '../services/multer';
 
 
@@ -19,6 +19,8 @@ router.delete('/api/admin/delete-prayer-request/:prayerRequestId' , deletePrayer
 router.post('/api/admin/add-banner', upload.single("bannerFile"), addBanner);
 router.post('/api/admin/add-parish-member', upload.single("imageFile"), addParishMember);
 router.get('/api/admin/get-parish-members', getParishMembersList);
+router.post('/api/admin/add-register' , addRegister);
+
 
 export default router; 
 

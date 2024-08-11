@@ -5,6 +5,7 @@ import RelicModel from "../models/relic.schema";
 import BannerModel from "../models/banner.schema";
 import EventModel from "../models/event.schema";
 import ParishMember from "../models/parishMembers.schema";
+import RegisterModel from "../models/register.schema";
 
 export const createPrayerRequest = async (req: Request, res: Response) => {
   const { prayerRequest } = req.body;
@@ -90,6 +91,15 @@ export const fetchParishMembers = async (req: Request, res: Response) => {
     res.status(200).json({members: members});
   } catch (error) {
     console.error('Error fetching banners:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+export const fetchRegisters = async (req: Request, res: Response) => {
+  try {
+    const registers = await RegisterModel.find();
+    res.status(200).json({registers: registers});
+  } catch (error) {
+    console.error('Error fetching registers:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };

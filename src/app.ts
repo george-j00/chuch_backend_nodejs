@@ -19,12 +19,14 @@ start(process.env.MONGODB_URI!)
 //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 //   allowedHeaders: ['Content-Type', 'Authorization']
 // }));
-app.use(cors());
-app.use(cookieParser());
 
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cors());
+app.use(cookieParser());
+
 app.use(userRouter);
 app.use(adminRouter);
 
