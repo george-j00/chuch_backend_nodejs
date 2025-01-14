@@ -13,7 +13,8 @@ interface IParishMember extends Document {
 const ParishMemberSchema: Schema = new Schema({
   name: { type: String, required: true },
   houseName: { type: String, required: true },
-  image: { type: String },
+  image: { type: String , optional: true},
+  phoneNumber: { type: String , optional: true},
   category: { 
     type: String, 
     required: true,

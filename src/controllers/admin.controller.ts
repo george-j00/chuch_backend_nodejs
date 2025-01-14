@@ -293,12 +293,12 @@ export const addBanner = async (req: Request, res: Response) => {
 
 export const addParishMember = async (req: Request, res: Response) => {
   try {
-    const { name, houseName, category } = req.body
+    const { name, houseName, category , phoneNumber } = req.body
     const file = req.file
 
-    if (!file) {
-      return res.status(400).json({ error: "Image file is required" })
-    }
+    // if (!file) {
+    //   return res.status(400).json({ error: "Image file is required" })
+    // }
     let imageUrl = ""
     // Assuming the image file is stored as a Base64 string
     if (req.file) {
@@ -311,6 +311,7 @@ export const addParishMember = async (req: Request, res: Response) => {
       houseName,
       image: imageUrl,
       category,
+      phoneNumber,
     })
 
     await newParishMember.save()
@@ -347,4 +348,20 @@ export const addRegister = async (req: Request, res: Response) => {
     console.error("Error adding or updating register:", error)
     res.status(500).json({ message: "Internal server error" })
   }
+}
+
+export const getRegisters = async (req: Request, res: Response) => {
+  try {
+    const registers = await RegisterModel.find()
+    res.status(200).json({ registers })
+  } catch (error) {
+    console.error("Error fetching registers:", error)
+    res.status(500).json({ message: "Internal server error" })
+  }
+}
+
+export const deleteRegister = async (req: Request, res: Response) => {
+  const { registerId } = req.params
+  await RegisterModel.findByIdAndDelete(registerId)
+  res.status(200).json({ message: "Register deleted successfully" })
 }

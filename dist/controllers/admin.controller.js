@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addRegister = exports.getParishMembersList = exports.addParishMember = exports.addBanner = exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.addEventImages = exports.deleteMember = exports.deleteEvent = exports.getEvents = exports.updateEventStatus = exports.createEvent = exports.adminLogin = void 0;
+exports.deleteRegister = exports.getRegisters = exports.addRegister = exports.getParishMembersList = exports.addParishMember = exports.addBanner = exports.deletePrayerRequest = exports.addRelics = exports.addImage = exports.getAllPrayerRequests = exports.addEventImages = exports.deleteMember = exports.deleteEvent = exports.getEvents = exports.updateEventStatus = exports.createEvent = exports.adminLogin = void 0;
 const event_schema_1 = __importDefault(require("../models/event.schema"));
 const prayerRequests_schema_1 = __importDefault(require("../models/prayerRequests.schema"));
 const cloudinary_1 = __importDefault(require("../services/cloudinary"));
@@ -283,11 +283,11 @@ const addBanner = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addBanner = addBanner;
 const addParishMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, houseName, category } = req.body;
+        const { name, houseName, category, phoneNumber } = req.body;
         const file = req.file;
-        if (!file) {
-            return res.status(400).json({ error: "Image file is required" });
-        }
+        // if (!file) {
+        //   return res.status(400).json({ error: "Image file is required" })
+        // }
         let imageUrl = "";
         // Assuming the image file is stored as a Base64 string
         if (req.file) {
@@ -299,6 +299,7 @@ const addParishMember = (req, res) => __awaiter(void 0, void 0, void 0, function
             houseName,
             image: imageUrl,
             category,
+            phoneNumber,
         });
         yield newParishMember.save();
         res.status(201).json({ message: "Parish member added successfully" });
@@ -336,3 +337,20 @@ const addRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.addRegister = addRegister;
+const getRegisters = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const registers = yield register_schema_1.default.find();
+        res.status(200).json({ registers });
+    }
+    catch (error) {
+        console.error("Error fetching registers:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+exports.getRegisters = getRegisters;
+const deleteRegister = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { registerId } = req.params;
+    yield register_schema_1.default.findByIdAndDelete(registerId);
+    res.status(200).json({ message: "Register deleted successfully" });
+});
+exports.deleteRegister = deleteRegister;

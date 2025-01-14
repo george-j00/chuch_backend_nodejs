@@ -6,7 +6,8 @@ const mongoose_1 = require("mongoose");
 const ParishMemberSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     houseName: { type: String, required: true },
-    image: { type: String },
+    image: { type: String, optional: true },
+    phoneNumber: { type: String, optional: true },
     category: {
         type: String,
         required: true,

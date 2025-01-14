@@ -22,4 +22,6 @@ router.post('/api/admin/add-banner', multer_1.default.single("bannerFile"), admi
 router.post('/api/admin/add-parish-member', multer_1.default.single("imageFile"), admin_controller_1.addParishMember);
 router.get('/api/admin/get-parish-members', admin_controller_1.getParishMembersList);
 router.post('/api/admin/add-register', admin_controller_1.addRegister);
+router.get('/api/admin/get-registers', admin_controller_1.getRegisters);
+router.delete('/api/admin/delete-register/:registerId', admin_controller_1.deleteRegister);
 exports.default = router;
