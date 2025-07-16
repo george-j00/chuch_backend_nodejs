@@ -11,9 +11,15 @@ const ParishMemberSchema = new mongoose_1.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['spiritual-leaders', 'parish-council', 'eminent-personalities', 'parish-members']
+        enum: [
+            "spiritual-leaders",
+            "parish-council",
+            "eminent-personalities",
+            "parish-members",
+            "special-invitee",
+        ],
     },
 });
 // Create a Model.
-const ParishMember = (0, mongoose_1.model)('ParishMember', ParishMemberSchema);
+const ParishMember = (0, mongoose_1.model)("ParishMember", ParishMemberSchema);
 exports.default = ParishMember;
